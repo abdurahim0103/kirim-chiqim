@@ -6,6 +6,8 @@ class UserSeriliazer(serializers.ModelSerializer):
         model=User
         fields="__all__"
 
+
+
 class IncomeSeriliazer(serializers.ModelSerializer):
     class Meta:
         model=Income
