@@ -3,8 +3,8 @@ from .models import User,Income,Expanse
 
 class UserSeriliazer(serializers.ModelSerializer):
     class Meta:
-        model=User
-        fields="__all__"
+        model = User
+        fields = "__all__"
 
 
 

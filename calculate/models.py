@@ -4,13 +4,13 @@ from django.db import models
  
 
 class User(models.Model):
-    firs_name=models.CharField(max_length=256)
+    first_name=models.CharField(max_length=256)
     last_name=models.CharField(max_length=256)
     phone_number=models.CharField(max_length=100)
     adress=models.TextField()
 
     def __str__(self):
-        return self.firs_name
+        return self.first_name
 
 
 class Income(models.Model):

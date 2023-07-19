@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from rest_framework.response import Response
-from . models import User, Income, Expanse
+from .models import User, Income, Expanse
 from rest_framework.views import APIView #TODO modelviewset swagger 
-from . seriliazers import UserSeriliazer, IncomeSeriliazer, ExpanceSeriliazer
-# from django.contrib.auth.models import User
-# from django.contrib.auth.hashers import make_password
-# from rest_framework.authtoken.models import Token
-# from django.contrib.auth import authenticate
+from .seriliazers import UserSeriliazer, IncomeSeriliazer, ExpanceSeriliazer
+from .models import User
+from django.contrib.auth.hashers import make_password
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate
 from django.db.models import Count,Sum      #TODO caunt ni organish 
 
 
@@ -14,8 +14,8 @@ from django.db.models import Count,Sum      #TODO caunt ni organish
 class GetUser(APIView):
     def get(self, request):
         user= User.objects.all()
-        seriliazer=UserSeriliazer(user,many=True)
-        return Response( seriliazer.data)
+        seriliazer=UserSeriliazer(user, many=True)
+        return Response(seriliazer.data)
 
 class IncomeView(APIView):
     def get(self, request):
@@ -76,30 +76,30 @@ class MonthSumView(APIView):
             return f" SIZ {start_date} va {end_date}  oraligida {total_income-total_expanse} miqdorda zarardasiz  "
         print(total_expanse.keys())
     
-# class UserRegister(APIView):
-#     def post(self, request):
-#         data = request.data
-#         user = User.objects.create(
-#             first_name=data["first_name"],
-#             last_name=data["last_name"],
-#             username=data["username"],
-#             email=data["email"],
-#             password=make_password(data["password"]),
-#         )
+class UserRegister(APIView):
+    def post(self, request):
+        data = request.data
+        user = User.objects.create(
+            first_name=data["first_name"],
+            last_name=data["last_name"],
+            username=data["username"],
+            email=data["email"],
+            password=make_password(data["password"]),
+        )
 
-#         token, created = Token.objects.get_or_create(user=user)
-#         return Response({"token": token.key})
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({"token": token.key})
 
 
-# class LoginUser(APIView):
-#     def post(self, request):
-#         data = request.data
-#         user = authenticate(username=data["username"], password=data["password"])
-#         if user is not None:
-#             token, created = Token.objects.get_or_create(user=user)
-#             return Response({"token": token.key})
-#         else:
-#             return Response({"error": "username or password incorrect"})
+class LoginUser(APIView):
+    def post(self, request):
+        data = request.data
+        user = authenticate(username=data["username"], password=data["password"])
+        if user is not None:
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({"token": token.key})
+        else:
+            return Response({"error": "username or password incorrect"})
         
 
 
